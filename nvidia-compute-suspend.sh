@@ -14,7 +14,7 @@ if [ $? -eq 0 ]; then
        
        # Stop processes immediately
        echo "$pids" | xargs -r kill -SIGKILL
-       sleep 1  # Wait to prevent anything weird
+       sleep 1s  # Wait to prevent anything weird
     else
        echo "No processes to kill"
     fi
