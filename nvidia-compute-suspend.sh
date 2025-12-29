@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Ensure Nvidia GPU is present
-if [ nvidia-smi -L &> /dev/null ]; then
+nvidia-smi -L &> /dev/null
+if [ $? -eq 0 ]; then
     
     # Processes using the GPU
     pids=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)
