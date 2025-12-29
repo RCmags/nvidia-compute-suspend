@@ -1,12 +1,3 @@
-#---- INSTRUCTIONS -----------------------------------------
-# Place service at:
-# /etc/systemd/system/nvidia-compute-suspend.service
-
-# Then run:
-# sudo systemctl enable nvidia-compute-suspend.service
-# sudo systemctl start nvidia-compute-suspend.service
-#----------------------------------------------------------
-
 [Unit]
 Description=Kill Nvidia GPU compute processes before suspending.
 Before=sleep.target suspend.target
