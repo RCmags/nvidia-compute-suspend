@@ -1,4 +1,9 @@
-# References
+# Nvidia Driver on Linux
+- [NVIDIA driver seems to prevent suspending](https://forum.artixlinux.org/index.php/topic,7425.0.html)
+- [Nvidia dGPU no longer supports runtime D3 status?](https://bbs.archlinux.org/viewtopic.php?id=297276)
+- [Generate Nvidia Report log | debugger](https://support.exxactcorp.com/hc/en-us/articles/22071798306583-Generating-an-Nvidia-Bug-Report-using-nvidia-bug-report-sh)
+
+# Systemd service
 Below are some of the references used to devise the systemd service. 
 
 ### Shell script:

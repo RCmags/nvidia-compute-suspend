@@ -1,43 +1,25 @@
-# Nvidia GPU Compute Killer | Safe suspend for eGPU's on Linux
-Linux Systemd service that kills any service that is using an Nvidia GPU's compute. This prevents
-eGPU's from causing the computer to crash when suspending. Intended to be used with older laptops
-using the "EXP GDC Beast" eGPU via express card.
+# Safe suspend for Nvdia eGPU's on Linux
+When an Nvidia GPU is connected to a laptop via an express card like the "Exp GDC Beast", the
+video card drivers can cause Linux to crash under certain conditions. This is especially true 
+when the computer is asked to suspend. This often leads to an irrecoverable crash on suspend or
+wake that creates a wall of text that indicates memory errors regarding the GPU and VRAM.
 
-# Installation 
-Open your terminal inside this folder and run the commands shown below.
+# Steps to fix
+Make the file `/etc/modprobe.d/nvidia.conf` and add:
 
-**nvidia-compute-suspend.sh**:
-This script kills all nvidia GPU compute processes to prevent crashes when suspending an eGPU. 
-Copy the file to expected location by running: 
-
-```bash
-sudo cp nvidia-compute-suspend.sh /usr/local/bin/nvidia-compute-suspend.sh
+```
+options nvidia NVreg_PreserveVideoMemoryAllocations=0
 ```
 
-Then make executable by running:
-```bash
-sudo chmod +x /usr/local/bin/nvidia-compute-suspend.sh
+The above prevents VRAM from being stored during suspend and creating a kernel error. 
+Next, disable the Nvidia services that manage the suspend cycle:
+
+```
+sudo systemctl disable nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service
 ```
 
-**nvidia-compute-suspend.service**:
-Place the file inside the services folder by running:
+The above commands greatly improves stability for the computer. It lets the OS manage the GPU
+as any other PCIe device. Some warnings will likely be shown during suspend and wake, but the
+computer will not crash and the GPU can continue to be used.
 
-```bash
-sudo cp nvidia-compute-suspend.service /etc/systemd/system/nvidia-compute-suspend.service
-```
 
-Then run:
-```bash
-sudo systemctl enable nvidia-compute-suspend.service
-sudo systemctl start nvidia-compute-suspend.service
-```
-
-# Output
-Suspend your computer then test the service by running:
-
-```bash
-sudo journalctl -xeu nvidia-compute-suspend.service
-```
-
-Then check the output messages. They should indicate the proceeses that were killed when the
-computer was suspended.
